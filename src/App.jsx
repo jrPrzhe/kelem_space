@@ -1,0 +1,671 @@
+
+import './App.css'
+import React, { useState, useRef, useEffect } from "react";
+// Импортируем изображения
+import Black from './images/Black.png';
+import Front from './images/Front.png';
+import Gold from './images/Gold.png';
+import Location from './images/Location.png';
+import Man from './images/Man.png';
+
+
+
+const App = () => {
+  const [activeSection, setActiveSection] = useState("home");
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const sections = ["home", "about", "work", "services", "additional", "testimonials", "contact"];
+  const sectionRefs = sections.map(() => useRef(null));
+
+  const testimonials = [
+    {
+      name: "Л.Н. Варенова",
+      position: "Генеральный директор ООО \"Сталь-Про\"",
+      quote: "С уверенностью можем рекомендовать Клем Олесю Александровну как надёжного и компетентного партнёра в области подбора персонала и управления командами."
+    },
+    {
+      name: "Д.В. Николаев",
+      position: "Генеральный директор ООО \"ГСП-Механизация\"",
+      quote: "Олеся Александровна проявила себя как квалифицированный и надёжный специалист, способный принимать решения и нести ответственность за конечный результат."
+    },
+    {
+      name: "А.Н. Дмитриенко",
+      position: "Генеральный директор ООО \"СпецПромСтрой\"",
+      quote: "Оперативность и эффективность — все вакансии были закрыты в оговорённые сроки, что позволило избежать простоев на объекте."
+    },
+    {
+      name: "М.А. Маликов",
+      position: "Генеральный директор ООО \"Сибирский Стандарт\"",
+      quote: "Олеся Александровна продемонстрировала высокий профессионализм, гибкость и глубокое понимание специфики нашей отрасли. Индивидуальный подход — учтены все наши пожелания и требования к кандидатам. Мы планируем сотрудничать и в будущем."
+    }
+  ];
+
+  const scrollToSection = (sectionId) => {
+    const index = sections.indexOf(sectionId);
+    if (index !== -1 && sectionRefs[index].current) {
+      sectionRefs[index].current.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(sectionId);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sectionRefs[i].current;
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#D0BCAC] via-[#CBD5E1] to-[#D4D4D8]">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="text-2xl font-bold text-gray-800">Олеся Клем</div>
+            <nav className="hidden md:flex space-x-8">
+              {sections.map((section) => (
+                <button
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className={`text-sm font-medium transition-all duration-300 pb-1 border-b-2 ${
+                    activeSection === section 
+                      ? "text-[#A8A29E] border-[#A8A29E]" 
+                      : "text-gray-600 border-transparent hover:text-[#A8A29E] hover:border-[#C6C9D0]"
+                  }`}
+                >
+                  {section === "home" && "Главная"}
+                  {section === "about" && "Кто я"}
+                  {section === "work" && "Как я работаю"}
+                  {section === "services" && "Основные направления"}
+                  {section === "additional" && "Дополнительные услуги"}
+                  {section === "testimonials" && "Отзывы"}
+                  {section === "contact" && "Контакты"}
+                </button>
+              ))}
+            </nav>
+            <a
+              href="https://t.me/kelem_space"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#A8A29E] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-lg"
+            >
+              Написать в Telegram
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section ref={sectionRefs[0]} id="home" className="pt-32 pb-20 px-6 min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="mb-8">
+                <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
+                  Интегративный
+                </h1>
+                <h1 className="text-6xl md:text-7xl font-bold text-[#A8A29E] mb-8 leading-tight">
+                  консалтинг
+                </h1>
+              </div>
+              
+              <p className="text-2xl text-gray-700 mb-12 leading-relaxed">
+                Мост между духовным и материальным в вашем бизнесе
+              </p>
+              
+              <div className="bg-white rounded-3xl p-8 shadow-xl border border-[#C6C9D0] max-w-3xl transform hover:scale-105 transition-transform duration-500">
+                <div className="space-y-6 text-left">
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    <strong>Автор:</strong> Олеся Клем, более 10 лет опыта в подборе персонала, аудите команд, дизайне человека и других инструментах.
+                  </p>
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    Консультирует собственников по вопросам управления, мотивации персонала, оптимизации бизнес-процессов и настройке взаимодействия команд.
+                  </p>
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    <strong>Личные интересы:</strong> любит походы в горы, природу, автоспорт и классическую музыку.
+                  </p>
+                  <p className="text-lg text-gray-700 leading-relaxed font-medium">
+                    <strong>Миссия:</strong> соединять смыслы, энергию и результат.
+                  </p>
+                </div>
+                
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <a
+                    href="https://t.me/kelem_space"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#A8A29E] text-white px-10 py-4 rounded-full text-xl font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-xl inline-block transform hover:-translate-y-1"
+                  >
+                    Написать в Telegram
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <div className="order-1 lg:order-2">
+              <div className="relative">
+                <div className="w-80 h-80 md:w-96 md:h-96 rounded-2xl overflow-hidden mx-auto shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
+                  <img 
+                    src={Front} 
+                    alt="Олеся Клем" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#CBD5E1] rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <div className="absolute -top-4 -right-4 w-14 h-14 bg-[#D4D4D8] rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section ref={sectionRefs[1]} id="about" className="py-32 px-6 bg-gradient-to-b from-white to-[#CBD5E1]">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold text-center text-gray-800 mb-20">Кто я</h2>
+          
+          {/* Фотография в секции "Кто я" */}
+          <div className="flex justify-center mb-16">
+            <div className="relative">
+              <div className="w-64 h-64 rounded-2xl overflow-hidden shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-700">
+                <img 
+                  src={Gold} 
+                  alt="Олеся Клем - профессиональный портрет" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#D4D4D8] rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-16">
+            {/* Left Column - Experience */}
+            <div className="space-y-12">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#C6C9D0] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-[#CBD5E1] rounded-full flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800">Опыт и экспертиза</h3>
+                </div>
+                <ul className="space-y-4 text-lg text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                    Более 10 лет опыта в HR и управлении персоналом (от классического подбора до комплексного аудита команд)
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                    Более 6 лет работы в качестве HR и руководителя отдела подбора персонала в разных нишах бизнеса
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                    Более 4 лет опыта работы в консалтинге как консультанта по формированию и управлению командами
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#D4D4D8] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-[#D4D4D8] rounded-full flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800">Авторская методика</h3>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Создатель методики «Интегративный аудит бизнеса» — выездная диагностика лидера, персонала и дальнейшая настройка взаимодействия.
+                </p>
+              </div>
+            </div>
+
+            {/* Right Column - Personal */}
+            <div className="space-y-12">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#C6C9D0] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-[#CBD5E1] rounded-full flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800">Энергия и интуиция</h3>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Опытный аналитик людей, структур и смыслов. Как сакральный генератор 4/6 чувствует, где и что нужно исправить, обладая большим количеством нужных и полезных связей. Регулярная работа с телом и личная духовная практика позволяют точно чувствовать «нужных» людей.
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#D0BCAC] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-[#D0BCAC] rounded-full flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800">Партнерство и поддержка</h3>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Альфа-лидер, ведущий рядышком (дружески) к изменениям в «светлое будущее». Все этапы проходят вместе, если для перезагрузки нужно идти в горы — собираются и идут вместе.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Decorative Elements */}
+          <div className="mt-16 flex justify-center space-x-4">
+            <div className="w-3 h-3 bg-[#D0BCAC] rounded-full animate-pulse"></div>
+            <div className="w-3 h-3 bg-[#CBD5E1] rounded-full animate-pulse delay-100"></div>
+            <div className="w-3 h-3 bg-[#D4D4D8] rounded-full animate-pulse delay-200"></div>
+            <div className="w-3 h-3 bg-[#A8A29E] rounded-full animate-pulse delay-300"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* How I Work Section */}
+      <section ref={sectionRefs[2]} id="work" className="py-32 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold text-center text-gray-800 mb-16">Как я работаю</h2>
+          
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+            <p className="text-2xl text-gray-700 leading-relaxed">
+              Не даю готовые шаблоны. Встраиваюсь в «тело» компании и чувствую, где она сбоит, предлагая глубокий и персонализированный подход.
+            </p>
+          </div>
+
+          {/* Process Diagram */}
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+              {/* Step 1 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                  1
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Контакт с собственником</h3>
+                <p className="text-gray-600 max-w-xs">Диагностика по Дизайну Человека, детальная беседа и наблюдение</p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                  2
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Энергетическая карта</h3>
+                <p className="text-gray-600 max-w-xs">Создание наглядной карты бизнеса, отражающей его энергетическое состояние</p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                  3
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Аудит команды и процессов</h3>
+                <p className="text-gray-600 max-w-xs">Проведение аудита «в поле» для выявления реального положения дел</p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                  4
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Живая обратная связь</h3>
+                <p className="text-gray-600 max-w-xs">Предоставление честной обратной связи и разработка плана действий</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Фотография в секции "Как я работаю" */}
+          <div className="flex justify-center my-16">
+            <div className="relative">
+              <div className="w-72 h-72 rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:-rotate-2 transition-transform duration-700">
+                <img 
+                  src={Black} 
+                  alt="Олеся Клем - работа с клиентами" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -top-2 -left-2 w-10 h-10 bg-[#CBD5E1] rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Process Description */}
+          <div className="mt-20 bg-[#CBD5E1] rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">Интегративный подход</h3>
+            <div className="grid md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="w-16 h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">Духовная основа</h4>
+                <p className="text-gray-700">Использование интуиции, энергетики и глубокого понимания природы людей</p>
+              </div>
+              <div>
+                <div className="w-16 h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">Бизнес-анализ</h4>
+                <p className="text-gray-700">Комплексный аудит бизнес-процессов, команд и организационной структуры</p>
+              </div>
+              <div>
+                <div className="w-16 h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">Результат</h4>
+                <p className="text-gray-700">Синергия духовного и материального для достижения максимального результата</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Services Section */}
+      <section ref={sectionRefs[3]} id="services" className="py-32 px-6 bg-[#CBD5E1]">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold text-center text-gray-800 mb-16">Основные направления</h2>
+          
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+            <p className="text-2xl text-gray-700 leading-relaxed">
+              Комплексные решения, которые гармонично сочетают классические бизнес-инструменты с глубоким пониманием человеческого потенциала и энергии бизнеса.
+            </p>
+          </div>
+
+          {/* Фотография в секции "Основные направления" */}
+          <div className="flex justify-center mb-16">
+            <div className="relative">
+              <div className="w-80 h-80 rounded-2xl overflow-hidden shadow-2xl transform -rotate-1 hover:rotate-1 transition-transform duration-700">
+                <img 
+                  src={Location} 
+                  alt="Олеся Клем - консультации" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-[#A8A29E] rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-10">
+            {[
+              {
+                title: "Точное закрытие вакансий",
+                description: "Находим идеальных кандидатов, соответствующих не только квалификации, но и энергетике вашей компании."
+              },
+              {
+                title: "Формирование команды",
+                description: "Создание синергетических команд, способных вывести ваш бизнес на новый уровень показателей."
+              },
+              {
+                title: "Живая диагностика бизнеса",
+                description: "Глубокий выездной аудит, выявляющий скрытые причины «пробуксовок» и потенциал роста в бизнесе."
+              },
+              {
+                title: "Настройка лидера и команды",
+                description: "Аудит «природы» собственника и команды, дальнейшая настройка взаимодействия исходя из сильных сторон и талантов каждого с учетом возможных компромиссов. Когда 1+1 становится не 2, а 20."
+              }
+            ].map((item, index) => (
+              <div key={index} className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-[#C6C9D0]">
+                <div className="w-12 h-12 bg-[#A8A29E] rounded-full flex items-center justify-center mb-6">
+                  <span className="text-white font-bold">{index + 1}</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">{item.title}</h3>
+                <p className="text-lg text-gray-700 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Services Section */}
+      <section ref={sectionRefs[4]} id="additional" className="py-32 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold text-center text-gray-800 mb-20">Дополнительные услуги</h2>
+          
+          {/* Фотография в секции "Дополнительные услуги" */}
+          <div className="flex justify-center mb-16">
+            <div className="relative">
+              <div className="w-96 h-96 rounded-2xl overflow-hidden shadow-2xl transform rotate-3 hover:-rotate-3 transition-transform duration-700">
+                <img 
+                  src={Man} 
+                  alt="Олеся Клем - профессиональная деятельность" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -top-3 -right-3 w-14 h-14 bg-[#C6C9D0] rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              "Классический подбор персонала: Комплексный подбор линейных, ТОП-менеджеров, соответствующих вашим требованиям, ценностям и корпоративной культуре.",
+              "Подбор персонала с применением системы Дизайна Человека: Современный подход к настройке кандидатов с руководителями, обеспечивающий максимальную гармонию и эффективность в дальнейшей работе.",
+              "Аудит команды ТОПов и разработка ИПР: Глубокий аудит высшего менеджмента и разработка индивидуальных планов развития для каждого члена команды не только в рамках компетенций, но и в контексте личности.",
+              "Аудит бизнес-процессов: Анализ и оптимизация бизнес-процессов для повышения эффективности взаимодействия и сокращения издержек.",
+              "Сопровождение внедрения изменений: Поддержка и контроль на этапах внедрения новых стратегий и процессов (от 1 до 6 месяцев).",
+              "Программы обучения HR: Разработка и проведение программ обучения и развития для вашей HR-службы. Повышение квалификации специалистов, а также обучение специалиста с «нуля»."
+            ].map((service, index) => (
+              <div key={index} className="bg-[#CBD5E1] p-8 rounded-2xl hover:bg-[#D4D4D8] hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border border-[#D0BCAC]">
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-[#A8A29E] rounded-full flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                    <span className="text-white text-sm font-bold">{index + 1}</span>
+                  </div>
+                  <p className="text-lg text-gray-700 leading-relaxed">{service}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section ref={sectionRefs[5]} id="testimonials" className="py-32 px-6 bg-[#CBD5E1]">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-5xl font-bold text-center text-gray-800 mb-20">Что говорят клиенты</h2>
+          
+          <div className="relative max-w-4xl mx-auto">
+            {/* Testimonial Slider */}
+            <div className="overflow-hidden">
+              <div 
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+              >
+                {testimonials.map((testimonial, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-4">
+                    <div className="bg-white p-12 rounded-3xl shadow-2xl border border-[#C6C9D0] relative">
+                      <div className="text-8xl text-[#CBD5E1] font-bold absolute top-6 left-8 opacity-30 select-none">"</div>
+                      <div className="pl-16">
+                        <p className="text-2xl text-gray-700 italic mb-8 leading-relaxed">{testimonial.quote}</p>
+                        <div className="border-t border-gray-200 pt-8">
+                          <div className="font-bold text-2xl text-gray-800">{testimonial.name}</div>
+                          <div className="text-xl text-gray-600 mt-2">{testimonial.position}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevTestimonial}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-300 z-10 border border-gray-200"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={nextTestimonial}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-300 z-10 border border-gray-200"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center mt-12 space-x-3">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentTestimonial === index 
+                      ? "bg-[#A8A29E] w-8" 
+                      : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Client Logos */}
+          <div className="mt-20 text-center">
+            <p className="text-gray-600 mb-8">Наши клиенты</p>
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+              {["Сталь-Про", "ГСП-Механизация", "СпецПромСтрой", "Сибирский Стандарт"].map((company, index) => (
+                <div key={index} className="text-center">
+                  <div className="w-20 h-20 bg-[#C6C9D0] rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span className="text-[#A8A29E] font-bold text-lg">{company.split(" ")[0].charAt(0)}</span>
+                  </div>
+                  <p className="text-gray-700 font-medium">{company}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section ref={sectionRefs[6]} id="contact" className="py-32 px-6 bg-white">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-5xl font-bold text-gray-800 mb-8">Готовы обсудить ваш запрос?</h2>
+          <p className="text-2xl text-gray-700 mb-12 leading-relaxed max-w-4xl mx-auto">
+            Перед началом работы, чтобы убедиться в совпадении наших ценностей, провожу краткое интервью.
+            Направьте информацию о вас и вашей компании (ссылку на сайт) и краткий запрос — задачу, которую необходимо решить.
+          </p>
+          
+          <a
+            href="https://t.me/kelem_space"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#A8A29E] text-white px-12 py-5 rounded-full text-2xl font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-2xl inline-block transform hover:-translate-y-1 mb-6"
+          >
+            Отправить запрос в Telegram
+          </a>
+          
+          <p className="text-xl text-gray-500">
+            После получения запроса свяжусь с вами для согласования времени беседы.
+          </p>
+
+          <div className="mt-24 pt-12 border-t border-gray-200">
+            <h3 className="text-4xl font-bold text-gray-800 mb-10">Контакты</h3>
+            <div className="bg-[#CBD5E1] rounded-3xl p-12 shadow-xl max-w-3xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-8 text-left">
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-800 mb-2">ИП Клем Олеся Александровна</h4>
+                    <p className="text-gray-700">ИНН: 381018937243</p>
+                    <p className="text-gray-700">ОГРНИП: 324385000069218</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-700">
+                      <strong>Телефон:</strong> +7 (914) 002-11-69
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-gray-700">
+                      <strong>Telegram:</strong>{" "}
+                      <a href="https://t.me/kelem_space" target="_blank" rel="noopener noreferrer" className="text-[#A8A29E] hover:underline font-medium">
+                        @kelem_space
+                      </a>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-700">
+                      <strong>Email:</strong>{" "}
+                      <a href="mailto:kelem.space@gmail.com" className="text-[#A8A29E] hover:underline font-medium">
+                        kelem.space@gmail.com
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-6 bg-gray-800 text-white text-center">
+        <p className="text-gray-300 text-lg">
+          © {new Date().getFullYear()} Олеся Клем. Все права защищены.
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+export default App;

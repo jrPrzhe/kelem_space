@@ -1,0 +1,54 @@
+/* Пастельные цвета */
+.bg-lavender-50 { background-color: #f8f7ff; }
+.bg-lavender-100 { background-color: #f0eeff; }
+.bg-lavender-200 { background-color: #e6e3ff; }
+.bg-lavender-300 { background-color: #d4cfff; }
+.bg-lavender-400 { background-color: #c2bbff; }
+.bg-lavender-500 { background-color: #b0a7ff; }
+.bg-lavender-600 { background-color: #9e93ff; }
+.bg-lavender-700 { background-color: #8c7fff; }
+
+.text-lavender-600 { color: #9e93ff; }
+.text-lavender-700 { color: #8c7fff; }
+
+.border-lavender-100 { border-color: #f0eeff; }
+.border-lavender-300 { border-color: #d4cfff; }
+.border-lavender-600 { border-color: #9e93ff; }
+
+.hover\:bg-lavender-50:hover { background-color: #f8f7ff; }
+.hover\:bg-lavender-600:hover { background-color: #9e93ff; }
+.hover\:text-lavender-600:hover { color: #9e93ff; }
+.hover\:border-lavender-300:hover { border-color: #d4cfff; }
+
+/* Мятные цвета */
+.bg-mint-50 { background-color: #f0fdfa; }
+.bg-mint-100 { background-color: #ccfbf1; }
+.bg-mint-200 { background-color: #99f6e4; }
+.bg-mint-300 { background-color: #5eead4; }
+.bg-mint-400 { background-color: #2dd4bf; }
+.bg-mint-500 { background-color: #14b8a6; }
+.bg-mint-600 { background-color: #0d9488; }
+.bg-mint-700 { background-color: #0f766e; }
+
+.text-mint-600 { color: #0d9488; }
+.text-mint-700 { color: #0f766e; }
+
+.hover\:bg-mint-50:hover { background-color: #f0fdfa; }
+
+/* Синие цвета (уже есть в Tailwind, но для полноты) */
+.bg-blue-50 { background-color: #eff6ff; }
+.bg-blue-100 { background-color: #dbeafe; }
+.bg-blue-200 { background-color: #bfdbfe; }
+.bg-blue-300 { background-color: #93c5fd; }
+.bg-blue-400 { background-color: #60a5fa; }
+.bg-blue-500 { background-color: #3b82f6; }
+.bg-blue-600 { background-color: #2563eb; }
+.bg-blue-700 { background-color: #1d4ed8; }
+
+.text-blue-600 { color: #2563eb; }
+.text-blue-700 { color: #1d4ed8; }
+
+.border-blue-100 { border-color: #dbeafe; }
+.border-blue-300 { border-color: #93c5fd; }
+
+.hover\:bg-blue-50:hover { background-color: #eff6ff; }
