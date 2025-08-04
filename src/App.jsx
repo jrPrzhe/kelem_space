@@ -15,6 +15,7 @@ const App = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [siteData, setSiteData] = useState(null);
   const [lastUpdate, setLastUpdate] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sections = ["home", "about", "work", "services", "additional", "testimonials", "contact"];
   const sectionRefs = sections.map(() => useRef(null));
 
@@ -53,6 +54,28 @@ const App = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Закрытие мобильного меню при клике вне его области и блокировка скролла
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isMobileMenuOpen && !e.target.closest('header')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    // Блокировка скролла при открытом мобильном меню
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   // Загрузка данных из localStorage при инициализации
   useEffect(() => {
@@ -200,6 +223,7 @@ const App = () => {
     if (index !== -1 && sectionRefs[index].current) {
       sectionRefs[index].current.scrollIntoView({ behavior: "smooth" });
       setActiveSection(sectionId);
+      setIsMobileMenuOpen(false); // Закрываем мобильное меню при клике
     }
   };
 
@@ -271,11 +295,13 @@ const App = () => {
             <div className="flex items-center gap-2">
               <div className="text-lg sm:text-2xl font-bold text-gray-800">Олеся Клем</div>
               {lastUpdate && (
-                <div className="text-xs text-gray-500 bg-green-100 px-2 py-1 rounded-full">
+                <div className="text-xs text-gray-500 bg-green-100 px-2 py-1 rounded-full hidden sm:block">
                   Обновлено: {lastUpdate.toLocaleTimeString()}
                 </div>
               )}
             </div>
+            
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
               {sections.map((section) => (
                 <button
@@ -297,21 +323,65 @@ const App = () => {
                 </button>
               ))}
             </nav>
-            <a
-              href={`https://t.me/${siteData?.contact?.telegram?.replace('@', '') || 'kelem_space'}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#A8A29E] text-white px-3 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-lg"
-            >
-              <span className="hidden sm:inline">Написать в Telegram</span>
-              <span className="sm:hidden">Telegram</span>
-            </a>
+            
+            <div className="flex items-center gap-3">
+              {/* Telegram Button */}
+              <a
+                href={`https://t.me/${siteData?.contact?.telegram?.replace('@', '') || 'kelem_space'}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#A8A29E] text-white px-3 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-lg"
+              >
+                <span className="hidden sm:inline">Написать в Telegram</span>
+                <span className="sm:hidden">Telegram</span>
+              </a>
+              
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                aria-label="Открыть меню"
+              >
+                <div className="w-6 h-6 flex flex-col justify-center items-center">
+                  <span className={`block w-5 h-0.5 bg-gray-600 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
+                  <span className={`block w-5 h-0.5 bg-gray-600 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                  <span className={`block w-5 h-0.5 bg-gray-600 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-1'}`}></span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Navigation Menu */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+          <div className="bg-white border-t border-gray-200 shadow-lg">
+            <nav className="px-4 py-6 space-y-4">
+              {sections.map((section) => (
+                <button
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className={`w-full text-left py-3 px-4 rounded-lg transition-all duration-200 font-medium ${
+                    activeSection === section 
+                      ? "bg-[#A8A29E] text-white" 
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {section === "home" && "🏠 Главная"}
+                  {section === "about" && "👤 Кто я"}
+                  {section === "work" && "⚙️ Как я работаю"}
+                  {section === "services" && "🛠️ Основные направления"}
+                  {section === "additional" && "📋 Дополнительные услуги"}
+                  {section === "testimonials" && "💬 Отзывы"}
+                  {section === "contact" && "📞 Контакты"}
+                </button>
+              ))}
+            </nav>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section ref={sectionRefs[0]} id="home" className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 min-h-screen flex items-center">
+      <section ref={sectionRefs[0]} id="home" className={`pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 min-h-screen flex items-center transition-all duration-300 ${isMobileMenuOpen ? 'pt-80' : ''}`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1">
