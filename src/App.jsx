@@ -14,7 +14,6 @@ const App = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [siteData, setSiteData] = useState(null);
-  const [lastUpdate, setLastUpdate] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sections = ["home", "about", "work", "services", "additional", "testimonials", "contact"];
   const sectionRefs = sections.map(() => useRef(null));
@@ -27,7 +26,6 @@ const App = () => {
         const parsedData = JSON.parse(savedData);
         console.log('App: Принудительное обновление данных:', parsedData);
         setSiteData(parsedData);
-        setLastUpdate(new Date());
       } catch (error) {
         console.error('Ошибка при принудительном обновлении данных:', error);
       }
@@ -86,7 +84,6 @@ const App = () => {
                   const parsedData = JSON.parse(savedData);
         console.log('App: Загружены данные из localStorage:', parsedData);
         setSiteData(parsedData);
-        setLastUpdate(new Date());
         } catch (error) {
           console.error('Ошибка при загрузке данных:', error);
         }
@@ -116,9 +113,8 @@ const App = () => {
     const handleCustomDataUpdate = (e) => {
       if (e.detail && e.detail.siteData) {
         try {
-          console.log('App: Получено кастомное событие обновления данных:', e.detail.siteData);
-          setSiteData(e.detail.siteData);
-          setLastUpdate(new Date());
+                  console.log('App: Получено кастомное событие обновления данных:', e.detail.siteData);
+        setSiteData(e.detail.siteData);
         } catch (error) {
           console.error('Ошибка при обновлении данных:', error);
         }
@@ -292,14 +288,7 @@ const App = () => {
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="text-lg sm:text-2xl font-bold text-gray-800">Олеся Клем</div>
-              {lastUpdate && (
-                <div className="text-xs text-gray-500 bg-green-100 px-2 py-1 rounded-full hidden sm:block">
-                  Обновлено: {lastUpdate.toLocaleTimeString()}
-                </div>
-              )}
-            </div>
+            <div className="text-lg sm:text-2xl font-bold text-gray-800">Олеся Клем</div>
             
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
