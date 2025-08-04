@@ -89,9 +89,9 @@ const App = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#D0BCAC] via-[#CBD5E1] to-[#D4D4D8]">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-gray-800">Олеся Клем</div>
+            <div className="text-lg sm:text-2xl font-bold text-gray-800">Олеся Клем</div>
             <nav className="hidden md:flex space-x-8">
               {sections.map((section) => (
                 <button
@@ -117,54 +117,55 @@ const App = () => {
               href="https://t.me/kelem_space"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#A8A29E] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-lg"
+              className="bg-[#A8A29E] text-white px-3 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-lg"
             >
-              Написать в Telegram
+              <span className="hidden sm:inline">Написать в Telegram</span>
+              <span className="sm:hidden">Telegram</span>
             </a>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section ref={sectionRefs[0]} id="home" className="pt-32 pb-20 px-6 min-h-screen flex items-center">
+      <section ref={sectionRefs[0]} id="home" className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="mb-8">
-                <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
+              <div className="mb-6 sm:mb-8">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight">
                   Интегративный
                 </h1>
-                <h1 className="text-6xl md:text-7xl font-bold text-[#A8A29E] mb-8 leading-tight">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#A8A29E] mb-6 sm:mb-8 leading-tight">
                   консалтинг
                 </h1>
               </div>
               
-              <p className="text-2xl text-gray-700 mb-12 leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-12 leading-relaxed">
                 Мост между духовным и материальным в вашем бизнесе
               </p>
               
-              <div className="bg-white rounded-3xl p-8 shadow-xl border border-[#C6C9D0] max-w-3xl transform hover:scale-105 transition-transform duration-500">
-                <div className="space-y-6 text-left">
-                  <p className="text-lg text-gray-700 leading-relaxed">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-[#C6C9D0] max-w-3xl transform hover:scale-105 transition-transform duration-500">
+                <div className="space-y-4 sm:space-y-6 text-left">
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                     <strong>Автор:</strong> Олеся Клем, более 10 лет опыта в подборе персонала, аудите команд, дизайне человека и других инструментах.
                   </p>
-                  <p className="text-lg text-gray-700 leading-relaxed">
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                     Консультирует собственников по вопросам управления, мотивации персонала, оптимизации бизнес-процессов и настройке взаимодействия команд.
                   </p>
-                  <p className="text-lg text-gray-700 leading-relaxed">
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                     <strong>Личные интересы:</strong> любит походы в горы, природу, автоспорт и классическую музыку.
                   </p>
-                  <p className="text-lg text-gray-700 leading-relaxed font-medium">
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium">
                     <strong>Миссия:</strong> соединять смыслы, энергию и результат.
                   </p>
                 </div>
                 
-                <div className="mt-8 pt-8 border-t border-gray-200">
+                <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
                   <a
                     href="https://t.me/kelem_space"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-[#A8A29E] text-white px-10 py-4 rounded-full text-xl font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-xl inline-block transform hover:-translate-y-1"
+                    className="bg-[#A8A29E] text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full text-lg sm:text-xl font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-xl inline-block transform hover:-translate-y-1 w-full sm:w-auto text-center"
                   >
                     Написать в Telegram
                   </a>
@@ -174,20 +175,20 @@ const App = () => {
             
             <div className="order-1 lg:order-2">
               <div className="relative">
-                <div className="w-80 h-80 md:w-96 md:h-96 rounded-2xl overflow-hidden mx-auto shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
+                <div className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-2xl overflow-hidden mx-auto shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
                   <img 
                     src={Front} 
                     alt="Олеся Клем" 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#CBD5E1] rounded-full flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="absolute -bottom-2 sm:-bottom-4 -left-2 sm:-left-4 w-12 h-12 sm:w-16 sm:h-16 bg-[#CBD5E1] rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <div className="absolute -top-4 -right-4 w-14 h-14 bg-[#D4D4D8] rounded-full flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 w-10 h-10 sm:w-14 sm:h-14 bg-[#D4D4D8] rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
@@ -198,95 +199,95 @@ const App = () => {
       </section>
 
       {/* About Section */}
-      <section ref={sectionRefs[1]} id="about" className="py-32 px-6 bg-gradient-to-b from-white to-[#CBD5E1]">
+      <section ref={sectionRefs[1]} id="about" className="py-16 sm:py-32 px-4 sm:px-6 bg-gradient-to-b from-white to-[#CBD5E1]">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-bold text-center text-gray-800 mb-20">Кто я</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12 sm:mb-20">Кто я</h2>
           
           {/* Фотография в секции "Кто я" */}
-          <div className="flex justify-center mb-16">
+          <div className="flex justify-center mb-12 sm:mb-16">
             <div className="relative">
-              <div className="w-64 h-64 rounded-2xl overflow-hidden shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-700">
+              <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-2xl overflow-hidden shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-700">
                 <img 
                   src={Gold} 
                   alt="Олеся Клем - профессиональный портрет" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#D4D4D8] rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="absolute -bottom-2 -right-2 w-6 h-6 sm:w-8 sm:h-8 bg-[#D4D4D8] rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Left Column - Experience */}
-            <div className="space-y-12">
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#C6C9D0] transform hover:shadow-xl transition-all duration-500">
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-[#CBD5E1] rounded-full flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+                      <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+              {/* Left Column - Experience */}
+              <div className="space-y-8 sm:space-y-12">
+                <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-[#C6C9D0] transform hover:shadow-xl transition-all duration-500">
+                  <div className="flex items-center mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBD5E1] rounded-full flex items-center justify-center mr-3 sm:mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Опыт и экспертиза</h3>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800">Опыт и экспертиза</h3>
+                  <ul className="space-y-3 sm:space-y-4 text-base sm:text-lg text-gray-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
+                      Более 10 лет опыта в HR и управлении персоналом (от классического подбора до комплексного аудита команд)
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
+                      Более 6 лет работы в качестве HR и руководителя отдела подбора персонала в разных нишах бизнеса
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
+                      Более 4 лет опыта работы в консалтинге как консультанта по формированию и управлению командами
+                    </li>
+                  </ul>
                 </div>
-                <ul className="space-y-4 text-lg text-gray-700">
-                  <li className="flex items-start">
-                    <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                    Более 10 лет опыта в HR и управлении персоналом (от классического подбора до комплексного аудита команд)
-                  </li>
-                  <li className="flex items-start">
-                    <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                    Более 6 лет работы в качестве HR и руководителя отдела подбора персонала в разных нишах бизнеса
-                  </li>
-                  <li className="flex items-start">
-                    <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                    Более 4 лет опыта работы в консалтинге как консультанта по формированию и управлению командами
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#D4D4D8] transform hover:shadow-xl transition-all duration-500">
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-[#D4D4D8] rounded-full flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-[#D4D4D8] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#D4D4D8] rounded-full flex items-center justify-center mr-3 sm:mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800">Авторская методика</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Авторская методика</h3>
                 </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   Создатель методики «Интегративный аудит бизнеса» — выездная диагностика лидера, персонала и дальнейшая настройка взаимодействия.
                 </p>
               </div>
             </div>
 
             {/* Right Column - Personal */}
-            <div className="space-y-12">
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#C6C9D0] transform hover:shadow-xl transition-all duration-500">
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-[#CBD5E1] rounded-full flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="space-y-8 sm:space-y-12">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-[#C6C9D0] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBD5E1] rounded-full flex items-center justify-center mr-3 sm:mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800">Энергия и интуиция</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Энергия и интуиция</h3>
                 </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   Опытный аналитик людей, структур и смыслов. Как сакральный генератор 4/6 чувствует, где и что нужно исправить, обладая большим количеством нужных и полезных связей. Регулярная работа с телом и личная духовная практика позволяют точно чувствовать «нужных» людей.
                 </p>
               </div>
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-[#D0BCAC] transform hover:shadow-xl transition-all duration-500">
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-[#D0BCAC] rounded-full flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-[#D0BCAC] transform hover:shadow-xl transition-all duration-500">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#D0BCAC] rounded-full flex items-center justify-center mr-3 sm:mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800">Партнерство и поддержка</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Партнерство и поддержка</h3>
                 </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                   Альфа-лидер, ведущий рядышком (дружески) к изменениям в «светлое будущее». Все этапы проходят вместе, если для перезагрузки нужно идти в горы — собираются и идут вместе.
                 </p>
               </div>
@@ -294,79 +295,79 @@ const App = () => {
           </div>
 
           {/* Decorative Elements */}
-          <div className="mt-16 flex justify-center space-x-4">
-            <div className="w-3 h-3 bg-[#D0BCAC] rounded-full animate-pulse"></div>
-            <div className="w-3 h-3 bg-[#CBD5E1] rounded-full animate-pulse delay-100"></div>
-            <div className="w-3 h-3 bg-[#D4D4D8] rounded-full animate-pulse delay-200"></div>
-            <div className="w-3 h-3 bg-[#A8A29E] rounded-full animate-pulse delay-300"></div>
+          <div className="mt-12 sm:mt-16 flex justify-center space-x-3 sm:space-x-4">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-[#D0BCAC] rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-[#CBD5E1] rounded-full animate-pulse delay-100"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-[#D4D4D8] rounded-full animate-pulse delay-200"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-[#A8A29E] rounded-full animate-pulse delay-300"></div>
           </div>
         </div>
       </section>
 
       {/* How I Work Section */}
-      <section ref={sectionRefs[2]} id="work" className="py-32 px-6 bg-white">
+      <section ref={sectionRefs[2]} id="work" className="py-16 sm:py-32 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-bold text-center text-gray-800 mb-16">Как я работаю</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12 sm:mb-16">Как я работаю</h2>
           
-          <div className="text-center mb-20 max-w-4xl mx-auto">
-            <p className="text-2xl text-gray-700 leading-relaxed">
+          <div className="text-center mb-12 sm:mb-20 max-w-4xl mx-auto">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 leading-relaxed">
               Не даю готовые шаблоны. Встраиваюсь в «тело» компании и чувствую, где она сбоит, предлагая глубокий и персонализированный подход.
             </p>
           </div>
 
           {/* Process Diagram */}
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 items-start">
               {/* Step 1 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold mb-3 sm:mb-4 shadow-lg">
                   1
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Контакт с собственником</h3>
-                <p className="text-gray-600 max-w-xs">Диагностика по Дизайну Человека, детальная беседа и наблюдение</p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Контакт с собственником</h3>
+                <p className="text-sm sm:text-base text-gray-600 max-w-xs">Диагностика по Дизайну Человека, детальная беседа и наблюдение</p>
               </div>
 
               {/* Step 2 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold mb-3 sm:mb-4 shadow-lg">
                   2
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Энергетическая карта</h3>
-                <p className="text-gray-600 max-w-xs">Создание наглядной карты бизнеса, отражающей его энергетическое состояние</p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Энергетическая карта</h3>
+                <p className="text-sm sm:text-base text-gray-600 max-w-xs">Создание наглядной карты бизнеса, отражающей его энергетическое состояние</p>
               </div>
 
               {/* Step 3 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold mb-3 sm:mb-4 shadow-lg">
                   3
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Аудит команды и процессов</h3>
-                <p className="text-gray-600 max-w-xs">Проведение аудита «в поле» для выявления реального положения дел</p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Аудит команды и процессов</h3>
+                <p className="text-sm sm:text-base text-gray-600 max-w-xs">Проведение аудита «в поле» для выявления реального положения дел</p>
               </div>
 
               {/* Step 4 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#A8A29E] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold mb-3 sm:mb-4 shadow-lg">
                   4
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Живая обратная связь</h3>
-                <p className="text-gray-600 max-w-xs">Предоставление честной обратной связи и разработка плана действий</p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Живая обратная связь</h3>
+                <p className="text-sm sm:text-base text-gray-600 max-w-xs">Предоставление честной обратной связи и разработка плана действий</p>
               </div>
             </div>
           </div>
 
           {/* Фотография в секции "Как я работаю" */}
-          <div className="flex justify-center my-16">
+          <div className="flex justify-center my-12 sm:my-16">
             <div className="relative">
-              <div className="w-72 h-72 rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:-rotate-2 transition-transform duration-700">
+              <div className="w-56 h-56 sm:w-72 sm:h-72 rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:-rotate-2 transition-transform duration-700">
                 <img 
                   src={Black} 
                   alt="Олеся Клем - работа с клиентами" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -top-2 -left-2 w-10 h-10 bg-[#CBD5E1] rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="absolute -top-2 -left-2 w-8 h-8 sm:w-10 sm:h-10 bg-[#CBD5E1] rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
@@ -374,35 +375,35 @@ const App = () => {
           </div>
 
           {/* Process Description */}
-          <div className="mt-20 bg-[#CBD5E1] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">Интегративный подход</h3>
-            <div className="grid md:grid-cols-3 gap-8 text-center">
+          <div className="mt-12 sm:mt-20 bg-[#CBD5E1] rounded-2xl p-6 sm:p-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6 sm:mb-8">Интегративный подход</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center">
               <div>
-                <div className="w-16 h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">Духовная основа</h4>
-                <p className="text-gray-700">Использование интуиции, энергетики и глубокого понимания природы людей</p>
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-2">Духовная основа</h4>
+                <p className="text-sm sm:text-base text-gray-700">Использование интуиции, энергетики и глубокого понимания природы людей</p>
               </div>
               <div>
-                <div className="w-16 h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">Бизнес-анализ</h4>
-                <p className="text-gray-700">Комплексный аудит бизнес-процессов, команд и организационной структуры</p>
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-2">Бизнес-анализ</h4>
+                <p className="text-sm sm:text-base text-gray-700">Комплексный аудит бизнес-процессов, команд и организационной структуры</p>
               </div>
-              <div>
-                <div className="w-16 h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="sm:col-span-2 md:col-span-1">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#A8A29E] rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">Результат</h4>
-                <p className="text-gray-700">Синергия духовного и материального для достижения максимального результата</p>
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-2">Результат</h4>
+                <p className="text-sm sm:text-base text-gray-700">Синергия духовного и материального для достижения максимального результата</p>
               </div>
             </div>
           </div>
