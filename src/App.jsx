@@ -41,6 +41,19 @@ const App = () => {
     };
   }, []);
 
+  // Секретная комбинация клавиш для перехода в админку (Ctrl+Shift+A)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        window.location.href = '/admin';
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Загрузка данных из localStorage при инициализации
   useEffect(() => {
     const loadData = () => {
@@ -233,6 +246,24 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#D0BCAC] via-[#CBD5E1] to-[#D4D4D8]">
+      {/* Скрытая кнопка админки - правый верхний угол */}
+      <div className="fixed top-4 right-4 z-[60] group">
+        <a
+          href="/admin"
+          className="w-3 h-3 bg-gray-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-gray-600 hover:scale-125 cursor-pointer block"
+          title="Админ-панель"
+        />
+      </div>
+      
+      {/* Скрытая кнопка админки - левый нижний угол */}
+      <div className="fixed bottom-4 left-4 z-[60] group">
+        <a
+          href="/admin"
+          className="w-2 h-2 bg-gray-500 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-gray-700 hover:scale-150 cursor-pointer block"
+          title="Админ-панель"
+        />
+      </div>
+      
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
@@ -811,10 +842,18 @@ const App = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 bg-gray-800 text-white text-center">
+      <footer className="py-8 px-6 bg-gray-800 text-white text-center relative group">
         <p className="text-gray-300 text-lg">
           © {new Date().getFullYear()} Олеся Клем. Все права защищены.
         </p>
+        {/* Скрытая кнопка админки в футере */}
+        <a
+          href="/admin"
+          className="absolute bottom-2 right-6 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:text-gray-400"
+          title="Админ-панель"
+        >
+          ⚙️
+        </a>
       </footer>
     </div>
   );
