@@ -52,3 +52,30 @@
 .border-blue-300 { border-color: #93c5fd; }
 
 .hover\:bg-blue-50:hover { background-color: #eff6ff; }
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  body {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
+  /* Улучшение читаемости на мобильных */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+  }
+  
+  p {
+    line-height: 1.5;
+  }
+  
+  /* Оптимизация кнопок для касания */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
