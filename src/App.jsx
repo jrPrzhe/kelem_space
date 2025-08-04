@@ -13,31 +13,174 @@ import Man from './images/Man.png';
 const App = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [siteData, setSiteData] = useState(null);
+  const [lastUpdate, setLastUpdate] = useState(null);
   const sections = ["home", "about", "work", "services", "additional", "testimonials", "contact"];
   const sectionRefs = sections.map(() => useRef(null));
 
-  const testimonials = [
-    {
-      name: "Л.Н. Варенова",
-      position: "Генеральный директор ООО \"Сталь-Про\"",
-      quote: "С уверенностью можем рекомендовать Клем Олесю Александровну как надёжного и компетентного партнёра в области подбора персонала и управления командами."
-    },
-    {
-      name: "Д.В. Николаев",
-      position: "Генеральный директор ООО \"ГСП-Механизация\"",
-      quote: "Олеся Александровна проявила себя как квалифицированный и надёжный специалист, способный принимать решения и нести ответственность за конечный результат."
-    },
-    {
-      name: "А.Н. Дмитриенко",
-      position: "Генеральный директор ООО \"СпецПромСтрой\"",
-      quote: "Оперативность и эффективность — все вакансии были закрыты в оговорённые сроки, что позволило избежать простоев на объекте."
-    },
-    {
-      name: "М.А. Маликов",
-      position: "Генеральный директор ООО \"Сибирский Стандарт\"",
-      quote: "Олеся Александровна продемонстрировала высокий профессионализм, гибкость и глубокое понимание специфики нашей отрасли. Индивидуальный подход — учтены все наши пожелания и требования к кандидатам. Мы планируем сотрудничать и в будущем."
+  // Функция для принудительного обновления данных
+  const refreshData = () => {
+    const savedData = localStorage.getItem('siteData');
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        console.log('App: Принудительное обновление данных:', parsedData);
+        setSiteData(parsedData);
+        setLastUpdate(new Date());
+      } catch (error) {
+        console.error('Ошибка при принудительном обновлении данных:', error);
+      }
     }
-  ];
+  };
+
+  // Добавляем функцию в глобальный объект для доступа из админки
+  useEffect(() => {
+    window.refreshSiteData = refreshData;
+    return () => {
+      delete window.refreshSiteData;
+    };
+  }, []);
+
+  // Загрузка данных из localStorage при инициализации
+  useEffect(() => {
+    const loadData = () => {
+      const savedData = localStorage.getItem('siteData');
+      if (savedData) {
+        try {
+                  const parsedData = JSON.parse(savedData);
+        console.log('App: Загружены данные из localStorage:', parsedData);
+        setSiteData(parsedData);
+        setLastUpdate(new Date());
+        } catch (error) {
+          console.error('Ошибка при загрузке данных:', error);
+        }
+      }
+    };
+    
+    loadData();
+    
+    // Периодически проверяем обновления данных (каждые 2 секунды)
+    const interval = setInterval(loadData, 2000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Слушаем изменения в localStorage и кастомные события
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'siteData' && e.newValue) {
+        try {
+          setSiteData(JSON.parse(e.newValue));
+        } catch (error) {
+          console.error('Ошибка при обновлении данных:', error);
+        }
+      }
+    };
+
+    const handleCustomDataUpdate = (e) => {
+      if (e.detail && e.detail.siteData) {
+        try {
+          console.log('App: Получено кастомное событие обновления данных:', e.detail.siteData);
+          setSiteData(e.detail.siteData);
+          setLastUpdate(new Date());
+        } catch (error) {
+          console.error('Ошибка при обновлении данных:', error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('siteDataUpdated', handleCustomDataUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('siteDataUpdated', handleCustomDataUpdate);
+    };
+  }, []);
+
+  // Данные по умолчанию
+  const defaultData = {
+    hero: {
+      title1: 'Интегративный',
+      title2: 'консалтинг',
+      subtitle: 'Мост между духовным и материальным в вашем бизнесе',
+      description: 'Автор: Олеся Клем, более 10 лет опыта в подборе персонала, аудите команд, дизайне человека и других инструментах.',
+      interests: 'Личные интересы: любит походы в горы, природу, автоспорт и классическую музыку.',
+      mission: 'Миссия: соединять смыслы, энергию и результат.'
+    },
+    about: {
+      experience: [
+        'Более 10 лет опыта в HR и управлении персоналом (от классического подбора до комплексного аудита команд)',
+        'Более 6 лет работы в качестве HR и руководителя отдела подбора персонала в разных нишах бизнеса',
+        'Более 4 лет опыта работы в консалтинге как консультанта по формированию и управлению командами'
+      ],
+      methodology: 'Создатель методики «Интегративный аудит бизнеса» — выездная диагностика лидера, персонала и дальнейшая настройка взаимодействия.',
+      energy: 'Опытный аналитик людей, структур и смыслов. Как сакральный генератор 4/6 чувствует, где и что нужно исправить, обладая большим количеством нужных и полезных связей. Регулярная работа с телом и личная духовная практика позволяют точно чувствовать «нужных» людей.',
+      partnership: 'Альфа-лидер, ведущий рядышком (дружески) к изменениям в «светлое будущее». Все этапы проходят вместе, если для перезагрузки нужно идти в горы — собираются и идут вместе.'
+    },
+    services: {
+      main: [
+        {
+          title: 'Точное закрытие вакансий',
+          description: 'Находим идеальных кандидатов, соответствующих не только квалификации, но и энергетике вашей компании.'
+        },
+        {
+          title: 'Формирование команды',
+          description: 'Создание синергетических команд, способных вывести ваш бизнес на новый уровень показателей.'
+        },
+        {
+          title: 'Живая диагностика бизнеса',
+          description: 'Глубокий выездной аудит, выявляющий скрытые причины «пробуксовок» и потенциал роста в бизнесе.'
+        },
+        {
+          title: 'Настройка лидера и команды',
+          description: 'Аудит «природы» собственника и команды, дальнейшая настройка взаимодействия исходя из сильных сторон и талантов каждого с учетом возможных компромиссов. Когда 1+1 становится не 2, а 20.'
+        }
+      ],
+      additional: [
+        'Классический подбор персонала: Комплексный подбор линейных, ТОП-менеджеров, соответствующих вашим требованиям, ценностям и корпоративной культуре.',
+        'Подбор персонала с применением системы Дизайна Человека: Современный подход к настройке кандидатов с руководителями, обеспечивающий максимальную гармонию и эффективность в дальнейшей работе.',
+        'Аудит команды ТОПов и разработка ИПР: Глубокий аудит высшего менеджмента и разработка индивидуальных планов развития для каждого члена команды не только в рамках компетенций, но и в контексте личности.',
+        'Аудит бизнес-процессов: Анализ и оптимизация бизнес-процессов для повышения эффективности взаимодействия и сокращения издержек.',
+        'Сопровождение внедрения изменений: Поддержка и контроль на этапах внедрения новых стратегий и процессов (от 1 до 6 месяцев).',
+        'Программы обучения HR: Разработка и проведение программ обучения и развития для вашей HR-службы. Повышение квалификации специалистов, а также обучение специалиста с «нуля».'
+      ]
+    },
+    testimonials: [
+      {
+        name: 'Л.Н. Варенова',
+        position: 'Генеральный директор ООО "Сталь-Про"',
+        quote: 'С уверенностью можем рекомендовать Клем Олесю Александровну как надёжного и компетентного партнёра в области подбора персонала и управления командами.'
+      },
+      {
+        name: 'Д.В. Николаев',
+        position: 'Генеральный директор ООО "ГСП-Механизация"',
+        quote: 'Олеся Александровна проявила себя как квалифицированный и надёжный специалист, способный принимать решения и нести ответственность за конечный результат.'
+      },
+      {
+        name: 'А.Н. Дмитриенко',
+        position: 'Генеральный директор ООО "СпецПромСтрой"',
+        quote: 'Оперативность и эффективность — все вакансии были закрыты в оговорённые сроки, что позволило избежать простоев на объекте.'
+      },
+      {
+        name: 'М.А. Маликов',
+        position: 'Генеральный директор ООО "Сибирский Стандарт"',
+        quote: 'Олеся Александровна продемонстрировала высокий профессионализм, гибкость и глубокое понимание специфики нашей отрасли. Индивидуальный подход — учтены все наши пожелания и требования к кандидатам. Мы планируем сотрудничать и в будущем.'
+      }
+    ],
+    contact: {
+      company: 'ИП Клем Олеся Александровна',
+      inn: '381018937243',
+      ogrnip: '324385000069218',
+      phone: '+7 (914) 002-11-69',
+      telegram: '@kelem_space',
+      email: 'kelem.space@gmail.com'
+    }
+  };
+
+  // Используем данные из админки или данные по умолчанию
+  const data = siteData || defaultData;
+  const testimonials = data.testimonials;
 
   const scrollToSection = (sectionId) => {
     const index = sections.indexOf(sectionId);
@@ -71,18 +214,21 @@ const App = () => {
 
   // Auto-rotate testimonials
   useEffect(() => {
+    const testimonialsData = siteData?.testimonials || testimonials;
     const timer = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      setCurrentTestimonial((prev) => (prev + 1) % testimonialsData.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [siteData?.testimonials]);
 
   const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    const testimonialsData = siteData?.testimonials || testimonials;
+    setCurrentTestimonial((prev) => (prev + 1) % testimonialsData.length);
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    const testimonialsData = siteData?.testimonials || testimonials;
+    setCurrentTestimonial((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length);
   };
 
   return (
@@ -91,7 +237,14 @@ const App = () => {
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="text-lg sm:text-2xl font-bold text-gray-800">Олеся Клем</div>
+            <div className="flex items-center gap-2">
+              <div className="text-lg sm:text-2xl font-bold text-gray-800">Олеся Клем</div>
+              {lastUpdate && (
+                <div className="text-xs text-gray-500 bg-green-100 px-2 py-1 rounded-full">
+                  Обновлено: {lastUpdate.toLocaleTimeString()}
+                </div>
+              )}
+            </div>
             <nav className="hidden md:flex space-x-8">
               {sections.map((section) => (
                 <button
@@ -114,7 +267,7 @@ const App = () => {
               ))}
             </nav>
             <a
-              href="https://t.me/kelem_space"
+              href={`https://t.me/${siteData?.contact?.telegram?.replace('@', '') || 'kelem_space'}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#A8A29E] text-white px-3 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-lg"
@@ -133,36 +286,36 @@ const App = () => {
             <div className="order-2 lg:order-1">
               <div className="mb-6 sm:mb-8">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight">
-                  Интегративный
+                  {siteData?.hero?.title1 || 'Интегративный'}
                 </h1>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#A8A29E] mb-6 sm:mb-8 leading-tight">
-                  консалтинг
+                  {siteData?.hero?.title2 || 'консалтинг'}
                 </h1>
               </div>
               
               <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-12 leading-relaxed">
-                Мост между духовным и материальным в вашем бизнесе
+                {siteData?.hero?.subtitle || 'Мост между духовным и материальным в вашем бизнесе'}
               </p>
               
               <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-[#C6C9D0] max-w-3xl transform hover:scale-105 transition-transform duration-500">
                 <div className="space-y-4 sm:space-y-6 text-left">
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                    <strong>Автор:</strong> Олеся Клем, более 10 лет опыта в подборе персонала, аудите команд, дизайне человека и других инструментах.
+                    <strong>Автор:</strong> {siteData?.hero?.description || 'Олеся Клем, более 10 лет опыта в подборе персонала, аудите команд, дизайне человека и других инструментах.'}
                   </p>
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
                     Консультирует собственников по вопросам управления, мотивации персонала, оптимизации бизнес-процессов и настройке взаимодействия команд.
                   </p>
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                    <strong>Личные интересы:</strong> любит походы в горы, природу, автоспорт и классическую музыку.
+                    <strong>Личные интересы:</strong> {siteData?.hero?.interests || 'любит походы в горы, природу, автоспорт и классическую музыку.'}
                   </p>
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium">
-                    <strong>Миссия:</strong> соединять смыслы, энергию и результат.
+                    <strong>Миссия:</strong> {siteData?.hero?.mission || 'соединять смыслы, энергию и результат.'}
                   </p>
                 </div>
                 
                 <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
                   <a
-                    href="https://t.me/kelem_space"
+                    href={`https://t.me/${siteData?.contact?.telegram?.replace('@', '') || 'kelem_space'}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-[#A8A29E] text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full text-lg sm:text-xl font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-xl inline-block transform hover:-translate-y-1 w-full sm:w-auto text-center"
@@ -234,18 +387,16 @@ const App = () => {
                     <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Опыт и экспертиза</h3>
                   </div>
                   <ul className="space-y-3 sm:space-y-4 text-base sm:text-lg text-gray-700">
-                    <li className="flex items-start">
-                      <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
-                      Более 10 лет опыта в HR и управлении персоналом (от классического подбора до комплексного аудита команд)
-                    </li>
-                    <li className="flex items-start">
-                      <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
-                      Более 6 лет работы в качестве HR и руководителя отдела подбора персонала в разных нишах бизнеса
-                    </li>
-                    <li className="flex items-start">
-                      <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
-                      Более 4 лет опыта работы в консалтинге как консультанта по формированию и управлению командами
-                    </li>
+                    {(siteData?.about?.experience || [
+                      'Более 10 лет опыта в HR и управлении персоналом (от классического подбора до комплексного аудита команд)',
+                      'Более 6 лет работы в качестве HR и руководителя отдела подбора персонала в разных нишах бизнеса',
+                      'Более 4 лет опыта работы в консалтинге как консультанта по формированию и управлению командами'
+                    ]).map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <div className="w-2 h-2 bg-[#A8A29E] rounded-full mt-3 mr-3 sm:mr-4 flex-shrink-0"></div>
+                        {item}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-[#D4D4D8] transform hover:shadow-xl transition-all duration-500">
@@ -258,7 +409,7 @@ const App = () => {
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Авторская методика</h3>
                 </div>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Создатель методики «Интегративный аудит бизнеса» — выездная диагностика лидера, персонала и дальнейшая настройка взаимодействия.
+                  {siteData?.about?.methodology || 'Создатель методики «Интегративный аудит бизнеса» — выездная диагностика лидера, персонала и дальнейшая настройка взаимодействия.'}
                 </p>
               </div>
             </div>
@@ -275,7 +426,7 @@ const App = () => {
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Энергия и интуиция</h3>
                 </div>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Опытный аналитик людей, структур и смыслов. Как сакральный генератор 4/6 чувствует, где и что нужно исправить, обладая большим количеством нужных и полезных связей. Регулярная работа с телом и личная духовная практика позволяют точно чувствовать «нужных» людей.
+                  {siteData?.about?.energy || 'Опытный аналитик людей, структур и смыслов. Как сакральный генератор 4/6 чувствует, где и что нужно исправить, обладая большим количеством нужных и полезных связей. Регулярная работа с телом и личная духовная практика позволяют точно чувствовать «нужных» людей.'}
                 </p>
               </div>
               <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-[#D0BCAC] transform hover:shadow-xl transition-all duration-500">
@@ -288,7 +439,7 @@ const App = () => {
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Партнерство и поддержка</h3>
                 </div>
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Альфа-лидер, ведущий рядышком (дружески) к изменениям в «светлое будущее». Все этапы проходят вместе, если для перезагрузки нужно идти в горы — собираются и идут вместе.
+                  {siteData?.about?.partnership || 'Альфа-лидер, ведущий рядышком (дружески) к изменениям в «светлое будущее». Все этапы проходят вместе, если для перезагрузки нужно идти в горы — собираются и идут вместе.'}
                 </p>
               </div>
             </div>
@@ -441,7 +592,7 @@ const App = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-10">
-            {[
+            {(siteData?.services?.main || [
               {
                 title: "Точное закрытие вакансий",
                 description: "Находим идеальных кандидатов, соответствующих не только квалификации, но и энергетике вашей компании."
@@ -458,7 +609,7 @@ const App = () => {
                 title: "Настройка лидера и команды",
                 description: "Аудит «природы» собственника и команды, дальнейшая настройка взаимодействия исходя из сильных сторон и талантов каждого с учетом возможных компромиссов. Когда 1+1 становится не 2, а 20."
               }
-            ].map((item, index) => (
+            ]).map((item, index) => (
               <div key={index} className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-[#C6C9D0]">
                 <div className="w-12 h-12 bg-[#A8A29E] rounded-full flex items-center justify-center mb-6">
                   <span className="text-white font-bold">{index + 1}</span>
@@ -495,14 +646,14 @@ const App = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {[
+            {(siteData?.services?.additional || [
               "Классический подбор персонала: Комплексный подбор линейных, ТОП-менеджеров, соответствующих вашим требованиям, ценностям и корпоративной культуре.",
               "Подбор персонала с применением системы Дизайна Человека: Современный подход к настройке кандидатов с руководителями, обеспечивающий максимальную гармонию и эффективность в дальнейшей работе.",
               "Аудит команды ТОПов и разработка ИПР: Глубокий аудит высшего менеджмента и разработка индивидуальных планов развития для каждого члена команды не только в рамках компетенций, но и в контексте личности.",
               "Аудит бизнес-процессов: Анализ и оптимизация бизнес-процессов для повышения эффективности взаимодействия и сокращения издержек.",
               "Сопровождение внедрения изменений: Поддержка и контроль на этапах внедрения новых стратегий и процессов (от 1 до 6 месяцев).",
               "Программы обучения HR: Разработка и проведение программ обучения и развития для вашей HR-службы. Повышение квалификации специалистов, а также обучение специалиста с «нуля»."
-            ].map((service, index) => (
+            ]).map((service, index) => (
               <div key={index} className="bg-[#CBD5E1] p-8 rounded-2xl hover:bg-[#D4D4D8] hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border border-[#D0BCAC]">
                 <div className="flex items-start">
                   <div className="w-8 h-8 bg-[#A8A29E] rounded-full flex items-center justify-center mr-4 flex-shrink-0 mt-1">
@@ -528,7 +679,7 @@ const App = () => {
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
               >
-                {testimonials.map((testimonial, index) => (
+                {(siteData?.testimonials || testimonials).map((testimonial, index) => (
                   <div key={index} className="w-full flex-shrink-0 px-4">
                     <div className="bg-white p-12 rounded-3xl shadow-2xl border border-[#C6C9D0] relative">
                       <div className="text-8xl text-[#CBD5E1] font-bold absolute top-6 left-8 opacity-30 select-none">"</div>
@@ -566,7 +717,7 @@ const App = () => {
 
             {/* Dots Indicator */}
             <div className="flex justify-center mt-12 space-x-3">
-              {testimonials.map((_, index) => (
+              {(siteData?.testimonials || testimonials).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentTestimonial(index)}
@@ -584,12 +735,12 @@ const App = () => {
           <div className="mt-20 text-center">
             <p className="text-gray-600 mb-8">Наши клиенты</p>
             <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-              {["Сталь-Про", "ГСП-Механизация", "СпецПромСтрой", "Сибирский Стандарт"].map((company, index) => (
+              {(siteData?.testimonials || testimonials).map((testimonial, index) => (
                 <div key={index} className="text-center">
                   <div className="w-20 h-20 bg-[#C6C9D0] rounded-full flex items-center justify-center mx-auto mb-2">
-                    <span className="text-[#A8A29E] font-bold text-lg">{company.split(" ")[0].charAt(0)}</span>
+                    <span className="text-[#A8A29E] font-bold text-lg">{testimonial.name.split(" ")[0].charAt(0)}</span>
                   </div>
-                  <p className="text-gray-700 font-medium">{company}</p>
+                  <p className="text-gray-700 font-medium">{testimonial.name}</p>
                 </div>
               ))}
             </div>
@@ -607,7 +758,7 @@ const App = () => {
           </p>
           
           <a
-            href="https://t.me/kelem_space"
+            href={`https://t.me/${siteData?.contact?.telegram?.replace('@', '') || 'kelem_space'}`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#A8A29E] text-white px-12 py-5 rounded-full text-2xl font-medium hover:bg-[#C6C9D0] transition-all duration-300 hover:shadow-2xl inline-block transform hover:-translate-y-1 mb-6"
@@ -625,13 +776,13 @@ const App = () => {
               <div className="grid md:grid-cols-2 gap-8 text-left">
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-xl font-bold text-gray-800 mb-2">ИП Клем Олеся Александровна</h4>
-                    <p className="text-gray-700">ИНН: 381018937243</p>
-                    <p className="text-gray-700">ОГРНИП: 324385000069218</p>
+                    <h4 className="text-xl font-bold text-gray-800 mb-2">{siteData?.contact?.company || 'ИП Клем Олеся Александровна'}</h4>
+                    <p className="text-gray-700">ИНН: {siteData?.contact?.inn || '381018937243'}</p>
+                    <p className="text-gray-700">ОГРНИП: {siteData?.contact?.ogrnip || '324385000069218'}</p>
                   </div>
                   <div>
                     <p className="text-gray-700">
-                      <strong>Телефон:</strong> +7 (914) 002-11-69
+                      <strong>Телефон:</strong> {siteData?.contact?.phone || '+7 (914) 002-11-69'}
                     </p>
                   </div>
                 </div>
@@ -639,16 +790,16 @@ const App = () => {
                   <div>
                     <p className="text-gray-700">
                       <strong>Telegram:</strong>{" "}
-                      <a href="https://t.me/kelem_space" target="_blank" rel="noopener noreferrer" className="text-[#A8A29E] hover:underline font-medium">
-                        @kelem_space
+                      <a href={`https://t.me/${siteData?.contact?.telegram?.replace('@', '') || 'kelem_space'}`} target="_blank" rel="noopener noreferrer" className="text-[#A8A29E] hover:underline font-medium">
+                        {siteData?.contact?.telegram || '@kelem_space'}
                       </a>
                     </p>
                   </div>
                   <div>
                     <p className="text-gray-700">
                       <strong>Email:</strong>{" "}
-                      <a href="mailto:kelem.space@gmail.com" className="text-[#A8A29E] hover:underline font-medium">
-                        kelem.space@gmail.com
+                      <a href={`mailto:${siteData?.contact?.email || 'kelem.space@gmail.com'}`} className="text-[#A8A29E] hover:underline font-medium">
+                        {siteData?.contact?.email || 'kelem.space@gmail.com'}
                       </a>
                     </p>
                   </div>
